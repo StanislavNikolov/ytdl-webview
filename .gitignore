@@ -1,0 +1,4 @@
+*.swp
+downloads/*
+node_modules/*
+.tags

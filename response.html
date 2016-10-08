@@ -1,0 +1,44 @@
+<html>
+	<h1 id="a">DOWNLOADING ...</h1>
+	<div id="b">Click <a id="c" href="file/__REPLC__FNAME__">here</a></div>
+	<script>
+var dl = document.getElementById("a");
+var clh = document.getElementById("b");
+var fn = document.getElementById("c");
+
+clh.style.display = "none";
+
+var count = 3;
+var animInterval = setInterval(function() {
+	var str = '';
+	for(var i = 0;i < count;i ++) str += '.';
+	dl.innerHTML = "DOWNLOADING " + str;
+	count ++;
+	if(count > 5) count = 0;
+}, 500);
+
+function check() {
+	var request = new XMLHttpRequest();
+	console.log(fn.href);
+	request.open("GET", "check/__REPLC__FNAME__", true);
+	request.send(null);
+	request.onreadystatechange = function() {
+		if (request.readyState == 4)
+		{
+			console.log(request.responseText);
+			if(request.responseText == 'o')
+			{
+				clearInterval(animInterval);
+				dl.style.display = "none";
+				clh.style.display = "block";
+			}
+			else
+			{
+				setTimeout(check, 1000);
+			}
+		}
+	};
+};
+check();
+	</script>
+</html>
