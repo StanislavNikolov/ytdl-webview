@@ -1,25 +1,34 @@
 <html>
-	<h1 id="a">DOWNLOADING ...</h1>
-	<div id="b">Click <a id="c" href="file/__REPLC__FNAME__">here</a></div>
+<head>
+	<title> youtube-dl webview </title>
+	<meta charset="utf-8"></meta>
+	<link href="/style.css" rel="stylesheet">
+</head>
+<body>
+	<div id="waitScreen">
+		<center><h1 id="text">DOWNLOADING</h1></center>
+		<div id="animationContainer">
+			<div class="animate" id="el1"></div>
+			<div class="animate" id="el2"></div>
+			<div class="animate" id="el3"></div>
+			<div class="animate" id="el4"></div>
+			<div class="animate" id="el5"></div>
+			<div class="animate" id="el6"></div>
+			<div class="animate" id="el7"></div>
+			<div class="animate" id="el8"></div>
+			<div class="animate" id="el9"></div>
+			<div class="animate" id="el10"></div>
+		</div>
+	</div>
+	<div id="dlLink"><h1>Click <a href="file/__REPLC__FNAME__" download>here</a></h1></div>
 	<script>
-var dl = document.getElementById("a");
-var clh = document.getElementById("b");
-var fn = document.getElementById("c");
+var waitScreen = document.getElementById("waitScreen");
+var dlLink = document.getElementById("dlLink");
 
-clh.style.display = "none";
-
-var count = 3;
-var animInterval = setInterval(function() {
-	var str = '';
-	for(var i = 0;i < count;i ++) str += '.';
-	dl.innerHTML = "DOWNLOADING " + str;
-	count ++;
-	if(count > 5) count = 0;
-}, 500);
+dlLink.style.display = "none";
 
 function check() {
 	var request = new XMLHttpRequest();
-	console.log(fn.href);
 	request.open("GET", "check/__REPLC__FNAME__", true);
 	request.send(null);
 	request.onreadystatechange = function() {
@@ -28,9 +37,12 @@ function check() {
 			console.log(request.responseText);
 			if(request.responseText == 'o')
 			{
-				clearInterval(animInterval);
-				dl.style.display = "none";
-				clh.style.display = "block";
+				waitScreen.classList.add("fadeout");
+				setTimeout(function() {
+					waitScreen.style.display = "none";
+					dlLink.style.display = "block";
+					dlLink.classList.add("fadein");
+				}, 1000);
 			}
 			else
 			{
@@ -41,4 +53,5 @@ function check() {
 };
 check();
 	</script>
+</body>
 </html>

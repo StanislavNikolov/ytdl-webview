@@ -9,6 +9,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", function(req, res) {
 	res.sendFile(__dirname + "/index.html");
 });
+app.get("/style.css", function(req, res) {
+	res.sendFile(__dirname + "/style.css");
+});
 
 app.get('/file/*.mp4', function(req, res) {
 	var fn = req.url.substr(6, req.url.length);
@@ -22,7 +25,6 @@ app.get('/check/*.mp4', function(req, res) {
 	var cut = str.substr(7, str.length-7-4);
 
 	var ok = false;
-	console.log('here', cut, status, status[cut]);
 	if(status[cut] === true) res.send('o');
 	else res.send('x');
 });
