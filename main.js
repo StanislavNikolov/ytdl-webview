@@ -13,7 +13,7 @@ app.get("/style.css", function(req, res) {
 	res.sendFile(__dirname + "/style.css");
 });
 
-app.get('/file/*.mp4', function(req, res) {
+app.get('/file/*.mp(3|4)', function(req, res) {
 	var fn = req.url.substr(6, req.url.length);
 	res.sendFile(__dirname + "/downloads/" + fn);
 });
@@ -26,7 +26,7 @@ function getStatus(id)
 	else return false;
 }
 
-app.get('/check/*.mp4', function(req, res) {
+app.get('/check/*.mp(3|4)', function(req, res) {
 	var str = req.url;
 	var cut = str.substr(7, str.length-7-4);
 
@@ -66,12 +66,15 @@ function readLog(id)
 app.post("/", function(req, res) {
 	var id = Math.random().toString(36).substring(7);
 
+	var format = "4";
+	if(req.body.format === "3") format = "3";
+
 	finished[id] = false;
-	var command = __dirname + "/doit.sh " + req.body.url + " " + id;
+	var command = __dirname + "/doit.sh " + req.body.url + " " + id + " " + format;
 
 	var response = "";
 	fs.readFile(__dirname + "/response.html", 'utf8', function(err, data) {
-		data = data.split("__REPLC__FNAME__").join(id + ".mp4");
+		data = data.split("__REPLC__FNAME__").join(id + ".mp" + format);
 		res.send(data);
 	});
 
